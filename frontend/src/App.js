@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -9,8 +9,13 @@ import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 const App = () => {
+  const [token,setToken]=useState(!!localStorage.getItem('token'))
   const isAuth = !!localStorage.getItem('token')
-   
+  useEffect(()=>{
+    setToken(!!localStorage.getItem('token'))
+  },[!!localStorage.getItem('token')])
+  
+console.log(localStorage.getItem('token'))
   return (
     <div className='w-full h-screen bg-orange-100'>
     <Router>
