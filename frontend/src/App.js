@@ -9,8 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 const App = () => {
-  const isAuth = !!localStorage.getItem('token'); // Kullanıcının token'ı olup olmadığını kontrol ediyor
-console.log("test")
+  const isAuth = !!localStorage.getItem('token'); 
   return (
     <div className='w-full h-screen bg-orange-100'>
     <Router>

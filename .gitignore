@@ -12,10 +12,11 @@ pids/
 *.seed
 *.pid.lock
 
+
 # Dependency directories
 frontend/node_modules/
 backend/node_modules/
-
+.env
 # Build directories
 frontend/build/
 backend/build/
