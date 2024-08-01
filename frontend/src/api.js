@@ -6,7 +6,6 @@ API.interceptors.request.use((req) => {
   }
   return req;
 });
-
 export const fetchProducts = () => API.get('/products', {
   headers: { Authorization: JSON.parse(localStorage.getItem('profile')).token }
 });
