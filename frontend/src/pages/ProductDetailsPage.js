@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { FaStar } from 'react-icons/fa';
+import { FaStar,FaRegHeart,FaHeart } from 'react-icons/fa';
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -9,6 +9,7 @@ const ProductDetailsPage = () => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
+  const username = localStorage.getItem("profile");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -64,7 +65,18 @@ const ProductDetailsPage = () => {
       </div>
       <div className="flex items-center">
         <p className="text-gray-700 mr-2">Likes: {product.likes}</p>
-        <button type="button" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700" onClick={handleLike}>Like</button>
+        {product?.likedBy?.includes(username) ? <FaHeart
+                size={20}
+                color={"red"}
+                className="cursor-pointer inline me-1 my-1 shadow-sm"
+                onClick={handleLike}
+              /> : <FaRegHeart
+                size={20}
+                color={"gray"}
+                className="cursor-pointer inline me-1 my-1 shadow-sm"
+                onClick={handleLike}
+              /> }
+        
       </div>
     </div>
     <div className="flex flex-col space-y-4">
@@ -104,8 +116,30 @@ const ProductDetailsPage = () => {
       <h3>Reviews</h3>
       <ul className="list-disc space-y-2">
         {product.reviews.map((review, index) => (
-          <li key={index}>
-            <strong>{review.user}:</strong> {review.comment} ({review.rating} stars)
+          <li key={index} className='flex items-start justify-start gap-1 flex-col'>
+            <strong>{review.user} (<span>{[...Array(5)].map((star, index) => {
+          const ratingValue = review.rating - 1;
+
+          return (
+            <label key={index} className=''>
+              <input
+                type="radio"
+                name="rating"
+                id="rating"
+                value={ratingValue}
+                onClick={() => setRating(ratingValue)}
+                className="hidden"
+              />
+              <FaStar
+                size={16}
+                color={ratingValue >= index ? "#ffc107" : "#e4e5e9"}
+                className="cursor-pointer inline me-1 my-1"
+                onMouseEnter={() => setHover(ratingValue)}
+                onMouseLeave={() => setHover(null)}
+              />
+            </label>
+          );
+        })}</span>) : </strong> <div className="">{review.comment}</div> 
           </li>
         ))}
       </ul>
