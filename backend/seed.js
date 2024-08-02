@@ -33,7 +33,6 @@ const products =  [
       arrivalDate: '15.01.2021',
       totalReviews: 150,
       reviews: [
-        { user: 'Hakan', comment: 'Süper!', rating: 5 },
       ],
       likes: 0
     },
