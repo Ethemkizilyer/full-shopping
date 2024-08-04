@@ -17,7 +17,7 @@ const App = () => {
   
 console.log(localStorage.getItem('token'))
   return (
-    <div className='w-full h-screen bg-orange-100'>
+    <div className='w-full h-full bg-orange-100'>
     <Router>
     <Navbar />
       <Routes>

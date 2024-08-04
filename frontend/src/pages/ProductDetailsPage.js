@@ -122,20 +122,11 @@ const ProductDetailsPage = () => {
 
           return (
             <label key={index} className=''>
-              <input
-                type="radio"
-                name="rating"
-                id="rating"
-                value={ratingValue}
-                onClick={() => setRating(ratingValue)}
-                className="hidden"
-              />
               <FaStar
                 size={16}
                 color={ratingValue >= index ? "#ffc107" : "#e4e5e9"}
                 className="cursor-pointer inline me-1 my-1"
-                onMouseEnter={() => setHover(ratingValue)}
-                onMouseLeave={() => setHover(null)}
+                
               />
             </label>
           );
