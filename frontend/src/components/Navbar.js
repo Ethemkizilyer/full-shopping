@@ -10,7 +10,7 @@ const Navbar = () => {
   const username = localStorage.getItem("profile");
   const handleLogout = async () => {
     await axios.post(
-      "http://localhost:5000/api/logout",
+      "http://localhost:5000/api/auth/logout",
       {},
       {
         headers: { Authorization: token },
@@ -18,7 +18,7 @@ const Navbar = () => {
     );
     localStorage.removeItem("token");
     localStorage.removeItem("profile");
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   return (
@@ -61,7 +61,7 @@ const Navbar = () => {
               <>
                 <li>
                   <a
-                    href="/login"
+                    href="/auth/login"
                     className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                   >
                     Login
@@ -69,7 +69,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    href="/register"
+                    href="/auth/register"
                     className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                   >
                     Register

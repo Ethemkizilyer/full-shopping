@@ -1,51 +1,37 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
-  });
-};
-
-const registerUser = async (req, res) => {
+const register = async (req, res) => {
   const { username, password } = req.body;
-
   const userExists = await User.findOne({ username });
 
   if (userExists) {
-    return res.status(400).json({ message: 'User already exists' });
+    return res.status(400).json({ message: 'Username already exists' });
   }
 
-  const user = await User.create({
-    username,
-    password,
-  });
+  const newUser = new User({ username, password });
+  await newUser.save();
 
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400).json({ message: 'Invalid user data' });
-  }
+  const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return res.status(201).json({ token, username });
 };
 
-const authUser = async (req, res) => {
+const login = async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
+  try {
+    const user = await User.findOne({ username });
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      username: user.username,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(401).json({ message: 'Invalid username or password' });
+    if (user && await user.matchPassword(password)) {
+      const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      return res.json({ token, username });
+    }
+
+    return res.status(401).json({ message: 'Invalid credentials' });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-module.exports = { registerUser, authUser };
+module.exports = { register, login };

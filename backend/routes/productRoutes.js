@@ -1,9 +1,12 @@
 const express = require('express');
-const router = express.Router();
-const { getProducts, getProductById } = require('../controllers/productController');
-const { protect } = require('../middleware/authMiddleware');
+const { getProducts, getProductById, addComment, toggleLike } = require('../controllers/productController');
+const { authenticateToken } = require('../middleware/authMiddleware');
 
-router.get('/', protect, getProducts);
-router.get('/:id', protect, getProductById);
+const router = express.Router();
+
+router.get('/', authenticateToken, getProducts);
+router.get('/:id', authenticateToken, getProductById);
+router.post('/:id/comment', authenticateToken, addComment);
+router.post('/:id/like', authenticateToken, toggleLike);
 
 module.exports = router;

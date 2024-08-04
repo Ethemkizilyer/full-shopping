@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/register', { username, password });
+      const response = await axios.post('http://localhost:5000/api/auth/register', { username, password });
       console.log("response",response)
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('profile', response.data.username);

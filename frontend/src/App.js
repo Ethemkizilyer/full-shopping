@@ -17,18 +17,18 @@ const App = () => {
   
 console.log(localStorage.getItem('token'))
   return (
-    <div className='w-full h-full bg-orange-100'>
+    <div className='w-full min-h-screen h-full bg-orange-100'>
     <Router>
     <Navbar />
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/register" element={<RegisterPage />} />
         <Route element={<PrivateRoute />}>
           <Route path="/products/:id" element={<ProductDetailsPage />} />
           <Route path="/products" element={<ProductListPage />} />
         </Route>
         {/* Anasayfaya yönlendirme */}
-        <Route path="/" element={isAuth ? <Navigate to="/products" /> : <Navigate to="/login" />} />
+        <Route path="*" element={isAuth ? <Navigate to="/products" /> : <Navigate to="/auth/login" />} />
       </Routes>
     </Router>
     <ToastContainer />
