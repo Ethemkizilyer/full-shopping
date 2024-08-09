@@ -3,13 +3,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("profile");
+  useAxiosInterceptor();
   const handleLogout = async () => {
-    await axios.post(
+    try {
+      await axios.post(
       "http://localhost:5000/api/auth/logout",
       {},
       {
@@ -19,6 +22,11 @@ const Navbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("profile");
     navigate("/auth/login");
+    } catch (error) {
+      console.log(error.message)
+      navigate("/auth/login");
+    }
+    
   };
 
   return (
@@ -53,7 +61,7 @@ const Navbar = () => {
                   className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                   onClick={handleLogout}
                 >
-                  Logout
+                  Çıkış
                 </button>
               </li>
               </>
@@ -64,7 +72,7 @@ const Navbar = () => {
                     href="/auth/login"
                     className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                   >
-                    Login
+                    Giriş
                   </a>
                 </li>
                 <li>
@@ -72,7 +80,7 @@ const Navbar = () => {
                     href="/auth/register"
                     className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                   >
-                    Register
+                    Kayıt Ol
                   </a>
                 </li>
               </>
