@@ -11,30 +11,23 @@ import Navbar from './components/Navbar';
 import AddProductPage from './components/AddProductPage';
 
 const App = () => {
-  const [token, setToken] = useState(!!localStorage.getItem('token'));
   const isAuth = !!localStorage.getItem('token');
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('isAdmin'));
-  const [isAdmin, setIsAdmin] = useState(!!localStorage.getItem('isAdmin'));
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isAdmin'));
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin'));
 
   const handleLogin = (adminStatus) => {
     setIsLoggedIn(true);
     setIsAdmin(adminStatus);
   };
-
-  useEffect(() => {
-    
-    setToken(!!localStorage.getItem('token'));
-  }, [!!localStorage.getItem('token')]);
-console.log("isAdmin",isAdmin)
   return (
     <div className='w-full min-h-screen h-full bg-orange-100'>
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/auth/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/auth/login" element={<LoginPage onLogin={handleLogin} setIsAdmin={setIsAdmin}/>} />
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
-            <Route path="/products" element={<ProductListPage />} />
+            <Route path="/products" element={<ProductListPage isAdmin={isAdmin}/>} />
             <Route path="/products/:id" element={<ProductDetailsPage />} />
             {isAdmin && <Route path="/products/add-product" element={<AddProductPage />} />} {/* Conditionally render AddProductPage */}
           </Route>

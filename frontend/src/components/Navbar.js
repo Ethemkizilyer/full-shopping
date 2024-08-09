@@ -21,6 +21,7 @@ const Navbar = () => {
     );
     localStorage.removeItem("token");
     localStorage.removeItem("profile");
+    localStorage.removeItem("isAdmin");
     navigate("/auth/login");
     } catch (error) {
       console.log(error.message)

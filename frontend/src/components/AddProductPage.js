@@ -7,6 +7,8 @@ const AddProductPage = () => {
   const [productPrice, setProductPrice] = useState('');
   const [productDescription, setProductDescription] = useState('');
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,6 +21,7 @@ const AddProductPage = () => {
           name: productName,
           price: productPrice,
           description: productDescription,
+          thumbnail:image
         },
         {
             headers: { Authorization: token }
@@ -30,6 +33,7 @@ const AddProductPage = () => {
         setProductName('');
         setProductPrice('');
         setProductDescription('');
+        setImage('');
       }
     } catch (error) {
       console.error('Error adding product:', error.response || error);
@@ -53,6 +57,19 @@ const AddProductPage = () => {
             type="text"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700" htmlFor="productImage">
+            Ürün Resmi
+          </label>
+          <input
+            id="productImage"
+            type="text"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded"
             required
           />

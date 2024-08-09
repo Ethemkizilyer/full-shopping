@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Bounce, toast } from 'react-toastify';
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin,setIsAdmin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ const LoginPage = ({ onLogin }) => {
       localStorage.setItem('profile', response.data.username);
       localStorage.setItem('isAdmin', response.data.isAdmin);
       onLogin(response.data.isAdmin);
+      setIsAdmin(response.data.isAdmin);
       navigate('/products');
       toast.success('Welcome!', {
         position: "top-center",
