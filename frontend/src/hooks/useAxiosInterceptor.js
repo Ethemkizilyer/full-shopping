@@ -7,6 +7,7 @@ export default function useAxiosInterceptor() {
 
     useEffect(() => {
       const token = localStorage.getItem('token'); 
+      console.log("Ethem")
       if (token) {
         const decodedToken = jwtDecode(token);
         const currentTime = Date.now() / 1000; // Geçerli zamanı al
@@ -17,6 +18,6 @@ export default function useAxiosInterceptor() {
           localStorage.removeItem('userData'); // Diğer localStorage verilerini sil
           navigate('/login'); // Login sayfasına yönlendir
         }
-      }
+      } 
     }, [navigate]);
 }

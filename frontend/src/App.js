@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import AddProductPage from './components/AddProductPage';
+import AdminManagement from './components/AdminManagement';
 
 const App = () => {
   const isAuth = !!localStorage.getItem('token');
@@ -22,12 +23,13 @@ const App = () => {
   return (
     <div className='w-full min-h-screen h-full bg-orange-100'>
       <Router>
-        <Navbar />
+        <Navbar setIsAdmin={setIsAdmin}/>
         <Routes>
           <Route path="/auth/login" element={<LoginPage onLogin={handleLogin} setIsAdmin={setIsAdmin}/>} />
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
             <Route path="/products" element={<ProductListPage isAdmin={isAdmin}/>} />
+            <Route path="/auth/users" element={<AdminManagement isAdmin={isAdmin}/>} />
             <Route path="/products/:id" element={<ProductDetailsPage />} />
             {isAdmin && <Route path="/products/add-product" element={<AddProductPage />} />} {/* Conditionally render AddProductPage */}
           </Route>
